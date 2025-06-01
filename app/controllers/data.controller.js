@@ -54,6 +54,36 @@ class Data {
       res.status(500).send({ API: false, details: err.message });
     }
   };
+
+  // static editData = async (req, res) => {
+  //   try {
+  //     const target = await DataModel.findOne({ _id: req.params.id });
+  //     res.status(200).send({
+  //       API: true,
+  //       data: target,
+  //     });
+  //   } catch (e) {
+  //     res.status(500).send({
+  //       API: false,
+  //       message: e.message,
+  //     });
+  //   }
+  // };
+
+  static getAllData = async (_, res) => {
+    try {
+      const data = await DataModel.find();
+      res.status(200).send({
+        API: true,
+        data,
+      });
+    } catch (e) {
+      res.status(500).send({
+        API: false,
+        message: e.message,
+      });
+    }
+  };
 }
 
 module.exports = Data;
