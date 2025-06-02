@@ -4,7 +4,7 @@ const DataModel = require("../models/data.model"),
 class Data {
   static newData = async (req, res) => {
     try {
-      const { category, title, location } = req.body;
+      const { category, title, location, price } = req.body;
       const validCategories = ["Trips", "Transportation", "Hotels"];
       if (!validCategories.includes(category)) {
         return res.status(400).json({ error: "Invalid category" });
@@ -35,6 +35,7 @@ class Data {
           // Save to MongoDB
           const newData = new DataModel({
             image: result.secure_url,
+            price,
             category,
             title,
             location,
