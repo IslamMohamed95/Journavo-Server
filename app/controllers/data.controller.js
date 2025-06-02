@@ -51,7 +51,7 @@ class Data {
         .createReadStream(req.file.buffer)
         .pipe(uploadResult);
     } catch (err) {
-      res.status(400).send({ API: false, details: "Faild to add new data" });
+      res.status(500).send({ API: false, details: err.message });
     }
   };
 
