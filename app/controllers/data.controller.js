@@ -72,7 +72,7 @@ class Data {
 
   static getAllData = async (_, res) => {
     try {
-      const data = await DataModel.find({ category: "Transportation" });
+      const data = await DataModel.find();
       res.status(200).send({
         API: true,
         data,
