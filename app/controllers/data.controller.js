@@ -51,8 +51,7 @@ class Data {
         .createReadStream(req.file.buffer)
         .pipe(uploadResult);
     } catch (err) {
-      console.error(err);
-      res.status(500).send({ API: false, details: err.message });
+      res.status(400).send({ API: false, details: "Faild to add new data" });
     }
   };
 
@@ -73,7 +72,7 @@ class Data {
 
   static getAllData = async (_, res) => {
     try {
-      const data = await DataModel.find();
+      const data = await DataModel.find({ category: "Transportation" });
       res.status(200).send({
         API: true,
         data,
