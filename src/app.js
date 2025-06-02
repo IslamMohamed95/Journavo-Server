@@ -9,7 +9,9 @@ app.use(cors());
 
 //Main Routes
 const dataRoute = require("../app/routes/data.route");
+const userRoute = require("../app/routes/user.route");
 
 app.use("/data", dataRoute);
+app.use("/user", userRoute);
 
 module.exports = app;
