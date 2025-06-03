@@ -5,7 +5,7 @@ const useerModel = require("../models/user.model");
 
 class User {
   static registerUser = async (req, res) => {
-    const { name, email, password, role } = req.body;
+    const { name, email, password } = req.body;
 
     try {
       // Check if user already exists
@@ -18,7 +18,7 @@ class User {
         name,
         email,
         password,
-        role,
+        role: "user",
         wishlist: [],
         cart: [],
       });
