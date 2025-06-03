@@ -80,6 +80,13 @@ class User {
         .send({ API: false, message: "Logout failed", error: e.message });
     }
   };
+
+  static addWishList = async (req, res) => {
+    try {
+    } catch (e) {
+      res.status(500).send({ API: false, message: e.messgae });
+    }
+  };
 }
 
 module.exports = User;
