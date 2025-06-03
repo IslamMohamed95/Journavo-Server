@@ -18,7 +18,7 @@ class User {
         name,
         email,
         password,
-        role: "user",
+        role,
         wishlist: [],
         cart: [],
       });
