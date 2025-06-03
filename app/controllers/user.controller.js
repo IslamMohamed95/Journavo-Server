@@ -57,7 +57,7 @@ class User {
       await user.save();
 
       // 5. Return success response
-      res.status(200).send({ API: true, data: user });
+      res.status(200).send({ API: true, data: user, token: token });
     } catch (err) {
       res
         .status(500)
