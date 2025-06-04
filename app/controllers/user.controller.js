@@ -137,7 +137,7 @@ class User {
         .send({ API: false, message: "Failed to add to wishlist" });
     }
   };
-  static removeItemFromWidhList = async (req, res) => {
+  static removeItemFromWishList = async (req, res) => {
     try {
       const userId = req.user._id; // get user id from req.user
       const productId = req.params.id;

@@ -7,7 +7,7 @@ const route = require("express").Router(),
     addWishList,
     removeItemFromCart,
     removeUsers,
-    removeItemFromWidhList,
+    removeItemFromWishList,
     booking,
   } = require("../controllers/user.controller");
 
@@ -23,9 +23,9 @@ route.post("/logout", auth, logoutUser);
 //Add to wishlist
 route.post("/wishList/:id", auth, addWishList);
 //Remove Item from the wishlist
-route.post("/removeItemFromwishlist/:id", auth, removeItemFromCart);
+route.post("/removeItemFromwishlist/:id", auth, removeItemFromWishList);
 //Remove Item from the cart
-route.post("/removeItemFromCart/:id", auth, removeItemFromWidhList);
+route.post("/removeItemFromCart/:id", auth, removeItemFromCart);
 
 //Add Custom trip
 route.post("/booking/:id", auth, booking);
