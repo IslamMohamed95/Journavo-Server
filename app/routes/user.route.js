@@ -6,28 +6,25 @@ const route = require("express").Router(),
     logoutUser,
     addWishList,
     removeItemFromCart,
-    removeUsers,
     removeItemFromWishList,
     booking,
   } = require("../controllers/user.controller");
 
 // Add New Data
 route.post("/new", registerUser);
-//Clear All Users
-route.post("/clearAll", removeUsers);
+
 //Login
 route.post("/login", loginUser);
 //logout
-route.post("/logout", auth, logoutUser);
+route.post("/logout", auth("user"), logoutUser);
 
 //Add to wishlist
-route.post("/wishList/:id", auth, addWishList);
+route.post("/wishList/:id", auth("user"), addWishList);
 //Remove Item from the wishlist
-route.post("/removeItemFromwishlist/:id", auth, removeItemFromWishList);
+route.post("/removeItemFromwishlist/:id", auth("user"), removeItemFromWishList);
 //Remove Item from the cart
-route.post("/removeItemFromCart/:id", auth, removeItemFromCart);
-
+route.post("/removeItemFromCart/:id", auth("user"), removeItemFromCart);
 //Add Custom trip
-route.post("/booking/:id", auth, booking);
+route.post("/booking/:id", auth("user"), booking);
 
 module.exports = route;

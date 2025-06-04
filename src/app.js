@@ -14,8 +14,10 @@ app.use(
 //Main Routes
 const dataRoute = require("../app/routes/data.route");
 const userRoute = require("../app/routes/user.route");
+const adminRoute = require("../app/routes/admin.route");
 
 app.use("/data", dataRoute);
 app.use("/user", userRoute);
+app.use("/admin", adminRoute);
 
 module.exports = app;

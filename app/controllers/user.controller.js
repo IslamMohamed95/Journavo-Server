@@ -18,7 +18,6 @@ class User {
         name,
         email,
         password,
-        role: "user",
         phone,
         wishlist: [],
         cart: [],
@@ -32,21 +31,6 @@ class User {
       res
         .status(500)
         .json({ message: "Registration failed", error: error.message });
-    }
-  };
-
-  static removeUsers = async (req, res) => {
-    try {
-      await userModel.deleteMany({}); // This deletes all users in the collection
-      res.status(200).send({
-        API: true,
-        message: "All users have been cleared successfully",
-      });
-    } catch (e) {
-      res.status(500).send({
-        API: true,
-        message: "Failed to clear users",
-      });
     }
   };
 
@@ -137,6 +121,7 @@ class User {
         .send({ API: false, message: "Failed to add to wishlist" });
     }
   };
+
   static removeItemFromWishList = async (req, res) => {
     try {
       const userId = req.user._id; // get user id from req.user
@@ -222,6 +207,8 @@ class User {
 
       // Add trip details
       dataId.details.push(tripData);
+      // Update totalPrice
+      user.totalPrice = (user.totalPrice || 0) + (Number(dataId.price) || 0);
       await dataId.save();
 
       // Remove from wishlist if exists
@@ -235,7 +222,9 @@ class User {
       // Add to cart
       user.cart.push(dataId); // use only the ID for consistency
       await user.save();
-
+      // ❗ Now clear details array and save again
+      dataId.details = [];
+      await dataId.save();
       res.status(200).send({
         API: true,
         data: user,
