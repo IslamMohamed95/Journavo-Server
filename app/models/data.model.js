@@ -10,6 +10,15 @@ const Data = new mongoose.Schema({
   title: { type: String, required: true },
   location: { type: String, required: true },
   price: { type: String, required: true },
+  details: [
+    {
+      checkIn: { type: String },
+      checkOut: { type: String },
+      guests: { type: Number },
+      travelClass: { type: String },
+      requests: { type: String },
+    },
+  ],
 });
 
 const DataModel = mongoose.model("Categories", Data);

@@ -219,72 +219,39 @@ class User {
     }
   };
 
-  static addToCart = async (req, res) => {
+  static booking = async (req, res) => {
     try {
-      const userId = req.user._id;
+      const user = req.user; // assuming this is a populated User model document
+      const tripData = req.body; // trip details to add to details array
 
-      const user = await userModel.findById(userId);
-      if (!user)
-        return res.status(404).send({ API: false, message: "User not found" });
-
-      const product = await dataModel.findById(req.params.id);
-      if (!product)
-        return res
-          .status(404)
-          .send({ API: false, message: "Product not found" });
-
-      const productIdStr = product._id.toString();
-
-      // Initialize totalPrice if undefined
-      if (typeof user.totalPrice !== "number") {
-        user.totalPrice = 0;
+      const dataId = await dataModel.findById(req.params.id);
+      if (!dataId) {
+        return res.status(404).send({ API: false, message: "Trip not found" });
       }
 
-      // Step 1: Check if the product exists in wishlist
-      const wasInWishlist = user.wishlist.some(
-        (item) => item._id.toString() === productIdStr
+      // Add trip details
+      dataId.details.push(tripData);
+      await dataId.save();
+
+      // Remove from wishlist if exists
+      const wishlistIndex = user.wishlist.findIndex(
+        (id) => id._id.toString() === dataId._id.toString()
       );
-
-      if (wasInWishlist) {
-        // Remove it from wishlist
-        user.wishlist = user.wishlist.filter(
-          (item) => item._id.toString() !== productIdStr
-        );
+      if (wishlistIndex !== -1) {
+        user.wishlist.splice(wishlistIndex, 1); // remove the item
       }
 
-      // Step 2: Check if the product already exists in cart
-      const existsInCart = user.cart.some(
-        (item) => item._id.toString() === productIdStr
-      );
-
-      if (existsInCart) {
-        return res.status(400).send({
-          API: false,
-          message: "Product already in the cart",
-        });
-      }
-
-      // Step 3: Add full product object to cart
-      user.cart.push(product);
-
-      // Step 4: Update totalPrice
-      user.totalPrice += Number(product.price);
-
+      // Add to cart
+      user.cart.push(dataId._id); // use only the ID for consistency
       await user.save();
 
       res.status(200).send({
         API: true,
-        message: wasInWishlist
-          ? "Product moved from wishlist to cart"
-          : "Product added to cart",
         data: user,
       });
     } catch (e) {
-      console.error("Add to cart error:", e);
-      res.status(500).send({
-        API: false,
-        message: "Adding product to the cart failed!",
-      });
+      console.error(e);
+      res.status(500).send({ API: false, message: "Failed to add a trip!" });
     }
   };
 }

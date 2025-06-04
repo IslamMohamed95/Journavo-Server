@@ -55,21 +55,6 @@ class Data {
     }
   };
 
-  // static editData = async (req, res) => {
-  //   try {
-  //     const target = await DataModel.findOne({ _id: req.params.id });
-  //     res.status(200).send({
-  //       API: true,
-  //       data: target,
-  //     });
-  //   } catch (e) {
-  //     res.status(500).send({
-  //       API: false,
-  //       message: e.message,
-  //     });
-  //   }
-  // };
-
   static getAllData = async (_, res) => {
     try {
       const data = await DataModel.find();

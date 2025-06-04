@@ -5,10 +5,10 @@ const route = require("express").Router(),
     loginUser,
     logoutUser,
     addWishList,
-    addToCart,
     removeItemFromCart,
     removeUsers,
     removeItemFromWidhList,
+    booking,
   } = require("../controllers/user.controller");
 
 // Add New Data
@@ -24,9 +24,10 @@ route.post("/logout", auth, logoutUser);
 route.post("/wishList/:id", auth, addWishList);
 //Remove Item from the wishlist
 route.post("/removeItemFromwishlist/:id", auth, removeItemFromCart);
-//Add To Cart
-route.post("/cart/:id", auth, addToCart);
 //Remove Item from the cart
 route.post("/removeItemFromCart/:id", auth, removeItemFromWidhList);
+
+//Add Custom trip
+route.post("/booking/:id", auth, booking);
 
 module.exports = route;

@@ -11,7 +11,6 @@ const userSchema = mongoose.Schema(
     wishlist: [],
     cart: [],
     tokens: [{ token: { type: String, required: true } }],
-    totalPrice: { type: Number, default: 0 },
   },
   {
     timestamps: false,
