@@ -28,6 +28,6 @@ route.post("/removeItemFromCart/:id", auth("user"), removeItemFromCart);
 //Add Custom trip
 route.post("/booking/:id", auth("user"), booking);
 //Add Custom trip
-route.post("/clientType/:id", getClient);
+route.post("/clientType", getClient);
 
 module.exports = route;

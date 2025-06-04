@@ -37,8 +37,13 @@ class User {
 
   static getClient = async (req, res) => {
     try {
-      let client = await userModel.findById(req.params.id);
-      if (!client) client = await adminModel.findById(req.params.id);
+      let client = await userModel.findOne({ email: req.body.email });
+      if (!client) client = await adminModel.findOne({ email: req.body.email });
+
+      const isMatch = await bcrypt.compare(req.body.password, client.password);
+      if (!isMatch)
+        return res.status(400).send({ message: "Invalid password" });
+
       res.status(200).send({
         API: true,
         data: client.role,
