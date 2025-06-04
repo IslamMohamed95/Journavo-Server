@@ -242,7 +242,7 @@ class User {
       }
 
       // Add to cart
-      user.cart.push(dataId._id); // use only the ID for consistency
+      user.cart.push(dataId); // use only the ID for consistency
       await user.save();
 
       res.status(200).send({
