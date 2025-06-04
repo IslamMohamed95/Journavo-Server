@@ -8,6 +8,7 @@ const route = require("express").Router(),
     removeItemFromCart,
     removeItemFromWishList,
     booking,
+    getClient,
   } = require("../controllers/user.controller");
 
 // Add New Data
@@ -26,5 +27,7 @@ route.post("/removeItemFromwishlist/:id", auth("user"), removeItemFromWishList);
 route.post("/removeItemFromCart/:id", auth("user"), removeItemFromCart);
 //Add Custom trip
 route.post("/booking/:id", auth("user"), booking);
+//Add Custom trip
+route.post("/clientType/:id", getClient);
 
 module.exports = route;

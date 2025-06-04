@@ -2,6 +2,7 @@ const userModel = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const dataModel = require("../models/data.model");
+const adminModel = require("../models/admin.model");
 
 class User {
   static registerUser = async (req, res) => {
@@ -31,6 +32,22 @@ class User {
       res
         .status(500)
         .json({ message: "Registration failed", error: error.message });
+    }
+  };
+
+  static getClient = async (req, res) => {
+    try {
+      let client = await userModel.findById(req.params.id);
+      if (!client) client = await adminModel.findById(req.params.id);
+      res.status(200).send({
+        API: true,
+        data: client.role,
+      });
+    } catch (e) {
+      res.status(500).send({
+        API: false,
+        message: e.message,
+      });
     }
   };
 

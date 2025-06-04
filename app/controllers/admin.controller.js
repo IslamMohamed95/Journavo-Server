@@ -30,6 +30,7 @@ class Admin {
         .send({ message: "Registration failed", error: error.message });
     }
   };
+
   static loginAdmin = async (req, res) => {
     const { email, password } = req.body;
 
