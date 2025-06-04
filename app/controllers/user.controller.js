@@ -181,22 +181,13 @@ class User {
 
   static removeItemFromCart = async (req, res) => {
     try {
-      const userId = req.user._id; // get user id from req.user
+      const user = req.user; // get user id from req.user
       const productId = req.params.id;
 
       if (!productId) {
         return res.status(400).send({
           API: false,
           message: "Product ID is required",
-        });
-      }
-
-      // Fetch the full user document from DB
-      const user = await userModel.findById(userId);
-      if (!user) {
-        return res.status(404).send({
-          API: false,
-          message: "User not found",
         });
       }
 
