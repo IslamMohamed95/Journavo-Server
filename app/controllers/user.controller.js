@@ -128,7 +128,7 @@ class User {
       res.status(200).send({
         API: true,
         message: "Product added to wishlist",
-        wishlist: user.wishlist,
+        data: user,
       });
     } catch (e) {
       console.error(e);
@@ -137,8 +137,7 @@ class User {
         .send({ API: false, message: "Failed to add to wishlist" });
     }
   };
-
-  static removeItemFromCart = async (req, res) => {
+  static removeItemFromWidhList = async (req, res) => {
     try {
       const userId = req.user._id; // get user id from req.user
       const productId = req.params.id;
@@ -163,6 +162,46 @@ class User {
       user.wishlist = user.wishlist.filter(
         (id) => id._id.toString() !== productId
       );
+
+      await user.save();
+
+      res.status(200).send({
+        API: true,
+        message: "Item removed from wishlist successfully",
+        data: user,
+      });
+    } catch (e) {
+      res.status(500).send({
+        API: false,
+        message: "Failed to remove item!",
+        error: e.message,
+      });
+    }
+  };
+
+  static removeItemFromCart = async (req, res) => {
+    try {
+      const userId = req.user._id; // get user id from req.user
+      const productId = req.params.id;
+
+      if (!productId) {
+        return res.status(400).send({
+          API: false,
+          message: "Product ID is required",
+        });
+      }
+
+      // Fetch the full user document from DB
+      const user = await userModel.findById(userId);
+      if (!user) {
+        return res.status(404).send({
+          API: false,
+          message: "User not found",
+        });
+      }
+
+      // Remove the productId from cart
+      user.cart = user.cart.filter((id) => id._id.toString() !== productId);
 
       await user.save();
 
@@ -238,9 +277,7 @@ class User {
         message: wasInWishlist
           ? "Product moved from wishlist to cart"
           : "Product added to cart",
-        cart: user.cart,
-        wishlist: user.wishlist,
-        totalPrice: user.totalPrice,
+        data: user,
       });
     } catch (e) {
       console.error("Add to cart error:", e);
