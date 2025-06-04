@@ -62,7 +62,6 @@ class Admin {
   };
   static logoutAdmin = async (req, res) => {
     try {
-      console.log(req.admin);
       req.admin.tokens = req.admin.tokens.filter((t) => t.token !== req.token);
       await req.admin.save();
       res.status(200).send({
