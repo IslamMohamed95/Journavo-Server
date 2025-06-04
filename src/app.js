@@ -5,7 +5,11 @@ const express = require("express"),
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 //Main Routes
 const dataRoute = require("../app/routes/data.route");
